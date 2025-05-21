@@ -2,6 +2,9 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="what a thrill">
+  <meta name="author" content="singularite">
   <title>Spin unnamed.png</title>
   <style>
     html, body {
@@ -69,6 +72,15 @@
       const bgm = document.getElementById('bgm');
       if (bgm.paused) bgm.play();
       document.body.removeEventListener('click', playMusic);
+    });
+
+    // Try to play automatically on page load
+    window.addEventListener('DOMContentLoaded', function() {
+      const bgm = document.getElementById('bgm');
+      bgm.volume = document.getElementById('volume').value;
+      bgm.play().catch(() => {
+        // Autoplay might be blocked; will play on first click
+      });
     });
 
     // Play sound on click
