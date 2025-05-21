@@ -53,8 +53,39 @@
   </style>
 </head>
 <body>
-  <img src="files\unnamed.png" alt="Spinning Image" class="spin">
+  <h1 style="text-align:center; color:white; text-shadow:2px 2px 8px #660000; position:relative; z-index:10; margin-top:24px;">
+    you should totally click
+  </h1>
+  <div style="display:flex; justify-content:center; align-items:center; height:calc(100vh - 80px); pointer-events:none; position:relative; z-index:5;">
+    <img src="files\unnamed.png" alt="Spinning Image" class="spin" style="pointer-events:auto;">
+  </div>
+  <audio id="bgm" src="files\Old Berlin.mp3" autoplay loop></audio>
+  <audio id="click-sound" src="files/pipe.mp3"></audio>
+  <input type="range" id="volume" min="0" max="1" step="0.01" value="1" style="position:fixed;top:10px;left:10px;z-index:1000;">
+  <img src="files/fire.gif" alt="Fire" style="position:fixed;left:0;bottom:0;width:100vw;height:200px;z-index:100;">
   <script>
+    // Optionally, ensure music plays on user interaction for browsers that block autoplay
+    document.body.addEventListener('click', function playMusic() {
+      const bgm = document.getElementById('bgm');
+      if (bgm.paused) bgm.play();
+      document.body.removeEventListener('click', playMusic);
+    });
+
+    // Play sound on click
+    document.body.addEventListener('click', function playClickSound() {
+      const clickSound = document.getElementById('click-sound');
+      clickSound.currentTime = 0;
+      clickSound.volume = 0.4; // Set pipe.mp3 volume lower (0.0 - 1.0)
+      clickSound.play();
+    });
+
+    // Volume control
+    const bgm = document.getElementById('bgm');
+    const volumeSlider = document.getElementById('volume');
+    volumeSlider.addEventListener('input', function() {
+      bgm.volume = this.value;
+    });
+
     const pipeSrc = "files/steel-pipe-isolated-on-transparent-background-png.png"; // Make sure this matches your pipe image filename
     const pipesCount = 50;
 
