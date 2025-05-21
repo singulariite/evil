@@ -9,13 +9,34 @@
       margin: 0;
       padding: 0;
       overflow: hidden;
-      background: #111;
+      background: linear-gradient(180deg, #ff0000 0%, #660000 100%);
+      cursor: url('files/steel-pipe-isolated-on-transparent-background-png.png') 16 16, auto;
     }
     body {
-      display: flex;
-      justify-content: center;
-      align-items: center;
+      width: 100vw;
       height: 100vh;
+      overflow: hidden;
+      position: relative;
+    }
+    .pipe {
+      position: absolute;
+      width: 100px;
+      pointer-events: none;
+      user-select: none;
+      animation: rain 1s linear infinite;
+    }
+    @keyframes rain {
+      0% {
+        top: -120px;
+        opacity: 1;
+      }
+      90% {
+        opacity: 1;
+      }
+      100% {
+        top: 100vh;
+        opacity: 0;
+      }
     }
     .spin {
       width: 400px;
@@ -33,6 +54,48 @@
 </head>
 <body>
   <img src="files\unnamed.png" alt="Spinning Image" class="spin">
+  <script>
+    const pipeSrc = "files/steel-pipe-isolated-on-transparent-background-png.png"; // Make sure this matches your pipe image filename
+    const pipesCount = 50;
+
+    function randomBetween(a, b) {
+      return Math.random() * (b - a) + a;
+    }
+
+    function createPipe(delay, left) {
+      const img = document.createElement('img');
+      img.src = pipeSrc;
+      img.className = 'pipe';
+      img.style.left = `${left}px`;
+      img.style.animationDelay = `${delay}s`;
+      img.style.width = '50px';
+      document.body.appendChild(img);
+
+      img.addEventListener('animationend', () => {
+        img.remove();
+        spawnPipe();
+      });
+    }
+
+    function spawnPipe() {
+      const delay = randomBetween(0, 2);
+      const left = randomBetween(0, window.innerWidth - 100);
+      createPipe(delay, left);
+    }
+
+    // Initial pipes
+    for (let i = 0; i < pipesCount; i++) {
+      spawnPipe();
+    }
+
+    // Optional: respawn pipes on resize
+    window.addEventListener('resize', () => {
+      document.querySelectorAll('.pipe').forEach(e => e.remove());
+      for (let i = 0; i < pipesCount; i++) {
+        spawnPipe();
+      }
+    });
+  </script>
 </body>
 </html>
 
