@@ -71,7 +71,8 @@
     // Try to play automatically on page load
     window.addEventListener('DOMContentLoaded', function() {
       const bgm = document.getElementById('bgm');
-      bgm.volume = document.getElementById('volume').value;
+      bgm.volume = 0.2; // Make Old Berlin quieter (0.0 - 1.0)
+      document.getElementById('volume').value = 0.2; // Sync slider with volume
       bgm.play().catch(() => {
         // Autoplay might be blocked; will play on first click
       });
